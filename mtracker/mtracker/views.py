@@ -1,5 +1,6 @@
 
 from calendar import c
+from getpass import getuser
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
@@ -7,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from taskData import models
 from django.contrib import messages
+import taskData
 from taskData.models import TaskData
 import datetime
 import re
@@ -26,7 +28,7 @@ def home(request):
         taskStatus = (request.POST.get('option')).title()
         taskSummary = request.POST.get('tasksummary')
         cur_time = (datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-        print(empId, empEmail, empName, taskName, dueDate, taskStatus, taskSummary)
+        # print(empId, empEmail, empName, taskName, dueDate, taskStatus, taskSummary)
 
         td = TaskData(empid=empId, empname=empName, empemail=empEmail, taskname=taskName, duedate=dueDate, taskstatus=taskStatus, tasksummary=taskSummary+"      "+cur_time)
         check_id = re.findall('[0-9]',empId)
@@ -54,6 +56,7 @@ def search(request):
     """Created by Sachin PAl(ASE DATA ENGINEER[110080])"""
     taskData = TaskData.objects.all()
     return render(request, "search.html", {"taskData":taskData})
+
 
 #Only show result with Pending Task with a specific empid
 def searchResult(request):
@@ -92,7 +95,7 @@ def deleteTask(request, id):
     if request.method == "POST":
         getData = models.TaskData.objects.get(pk=id)
         # print(getDeletedData)
-        print(getData.delete())
+        getData.delete()
         # messages.success(request, 'You successfully deleted')
         return redirect('search')
     return HttpResponse('404 no page found!')
@@ -102,7 +105,19 @@ def deleteTask(request, id):
 @login_required(login_url="/login")
 def profileData(request):
     """Created by Sachin PAl(ASE DATA ENGINEER[110080]) """
-    return render(request, "hr-profile.html")
+    userData = User.objects.get(username=request.user)
+    print(userData.first_name)
+    totalTasks = TaskData.objects.all().count()
+    totalTasksCompleted = TaskData.objects.filter(taskstatus="Completed").count()
+    tottalTasksPending = TaskData.objects.filter(taskstatus="Pending").count()
+    # print(totalTasks, totalTasksCompleted, tottalTasksPending)
+    context = {
+        "userData":userData,
+        "totalTasks":totalTasks,
+        "totalTasksCompleted":totalTasksCompleted,
+        "totalTasksPending":tottalTasksPending
+    }
+    return render(request, "hr-profile.html",context=context)
 
 @login_required(login_url="/login")
 def feedbackData(request):
@@ -112,6 +127,7 @@ def feedbackData(request):
 # HR user registration 
 def user_registration(request):
     """Created by Sachin PAl(ASE DATA ENGINEER[110080])"""
+    
     if request.method == 'POST':
         first_name = request.POST.get('name')
         username = request.POST.get('employeeid')
@@ -119,7 +135,7 @@ def user_registration(request):
         password = request.POST.get('password')
         conf_emp_password = request.POST.get('conf_password')
 
-        print(first_name, username, email, password, conf_emp_password)
+        # print(first_name, username, email, password, conf_emp_password)
 
         if password == conf_emp_password:
             if User.objects.filter(username=username).exists():
@@ -140,6 +156,9 @@ def user_registration(request):
 #HR user login
 def userLogin(request):
     """Created by Sachin PAl(ASE DATA ENGINEER[110080]) """
+    if request.user.is_authenticated:
+        return redirect('search')
+
     if request.method == "POST":
         username = request.POST.get('emp-id')
         password = request.POST.get('password')
