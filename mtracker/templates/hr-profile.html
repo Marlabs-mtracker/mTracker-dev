@@ -49,11 +49,11 @@
                     </div>
 
                     <ul>
-                        <li>Name: <span>{{userData.first_name}}</span><span>{{user.last_name}}</span></li>
-                        <li>Designation: <span>BHR</span></li>
-                        <li>Employee ID: <span>{{request.user}}</span></li>
+                        <li>Name: <span>{{user.first_name}} {{user.last_name}}</span></li>
+                        <li>Designation: <span>{{user.designation}}</span></li>
+                        <li>Employee ID: <span>{{request.user.empid}}</span></li>
                         <li>Email ID: <span>{{user.email}}</span></li>
-                        <li>Location: <span>Banglore</span></li>
+                        <li>Location: <span>{{user.location}}</span></li>
                     </ul>
 
                 </div>

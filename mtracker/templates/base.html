@@ -54,11 +54,11 @@
                 <a href="#" data-target="mobile-side-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down">
                     <li class="active"><a href="/">Create</a></li>
-                    <li><a href="/search">Search</a></li>
+                    <li><a href="/search">Query/Tasks</a></li>
                     <li><a href="/feedback">Feedbacks</a></li>
                     <li><a href="/hr-profile">Profile</a></li>
                     {% if user.is_authenticated %}
-                    <li><a href="/login">Welcome, {{request.user}}</a></li>
+                    <li><a href="/login">Hi, {{request.user.first_name}}</a></li>
                     <li><a href="/logout">Logout</a></li>
                     {% else %}
                     <li><a href="/login">Login</a></li>

@@ -5,7 +5,9 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from matplotlib.ft2font import LOAD_IGNORE_GLOBAL_ADVANCE_WIDTH
+# from django.contrib.auth.models import User
+from accounts.models import User
 from taskData import models
 from django.contrib import messages
 import taskData
@@ -64,7 +66,7 @@ def searchResult(request):
     
     if request.method == "POST":
         searchData = request.POST.get("search")
-        finalData = TaskData.objects.filter(empid=searchData).exclude(taskstatus="Completed")
+        finalData = TaskData.objects.filter(empid=searchData)
     return render(request, "searchresult.html",{"finalData":finalData})
 
 @login_required(login_url="/login")
@@ -105,14 +107,11 @@ def deleteTask(request, id):
 @login_required(login_url="/login")
 def profileData(request):
     """Created by Sachin PAl(ASE DATA ENGINEER[110080]) """
-    userData = User.objects.get(username=request.user)
-    print(userData.first_name)
     totalTasks = TaskData.objects.all().count()
     totalTasksCompleted = TaskData.objects.filter(taskstatus="Completed").count()
     tottalTasksPending = TaskData.objects.filter(taskstatus="Pending").count()
     # print(totalTasks, totalTasksCompleted, tottalTasksPending)
-    context = {
-        "userData":userData,
+    context = {      
         "totalTasks":totalTasks,
         "totalTasksCompleted":totalTasksCompleted,
         "totalTasksPending":tottalTasksPending
@@ -122,6 +121,7 @@ def profileData(request):
 @login_required(login_url="/login")
 def feedbackData(request):
     """Created by Sachin (ASE DATA ENGINEER) """
+    
     return render(request, "feedback-rating-form.html")
 
 # HR user registration 
@@ -129,23 +129,23 @@ def user_registration(request):
     """Created by Sachin PAl(ASE DATA ENGINEER[110080])"""
     
     if request.method == 'POST':
-        first_name = request.POST.get('name')
-        username = request.POST.get('employeeid')
+        first_name = request.POST.get('fname')
+        last_name = request.POST.get('lname')
+        empid = request.POST.get('employeeid')
         email = request.POST.get('email')
+        designation = request.POST.get('designation')
+        location = request.POST.get('location')
         password = request.POST.get('password')
         conf_emp_password = request.POST.get('conf_password')
 
-        # print(first_name, username, email, password, conf_emp_password)
+        # print(first_name, empid, email, password, conf_emp_password, designation, location)
 
         if password == conf_emp_password:
-            if User.objects.filter(username=username).exists():
-                messages.info(request, "Employee Id already registered..")
-                return redirect(user_registration)
-            elif User.objects.filter(email=email).exists():
+            if User.objects.filter(email=email).exists():
                 messages.info(request, "Employee email already registered...")
                 return redirect(user_registration)
             else:
-                user = User.objects.create_user(username=username, password=password, email=email, first_name=first_name)
+                user = User.objects.create_user(email=email, password=password, empid=empid, first_name=first_name, last_name=last_name, designation=designation, location=location)
                 user.save()
                 return redirect('login')
         else:
@@ -165,7 +165,7 @@ def userLogin(request):
 
         print(username, password)
         user = authenticate(username=username, password=password)
-        print(user)
+        # print(user)
         if user is not None:
             login(request, user)
             return redirect('search')
