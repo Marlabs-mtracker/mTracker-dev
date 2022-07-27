@@ -25,7 +25,11 @@
             <section class="vh-100" style="background-color: #eee;">
                 <div class="form-group">
                       {% for message in messages %}
+<<<<<<< HEAD
                       <div class="alert alert-danger" role="alert">
+=======
+                      <div class="alert alert-info" role="alert">
+>>>>>>> 8b64436 (updated reset pssword method)
                           {{message}}
                       </div>
                       {% endfor %}
@@ -44,7 +48,11 @@
                         <div class='row'>
                             <div class='input-field col s12'>
                                 <input class='validate' type='text' name='emp-id' id='emp-id' />
+<<<<<<< HEAD
                                 <label for='emp-id'>Enter your Email ID</label>
+=======
+                                <label for='emp-id'>Enter your Employee ID</label>
+>>>>>>> 8b64436 (updated reset pssword method)
                             </div>
                         </div>
 
@@ -54,10 +62,17 @@
                                 <label for='password'>Enter your password</label>
                             </div>
                             <label style='float: right; font-weight: 700; padding:25px 10px;'>
+<<<<<<< HEAD
                                 <a class='pink-text' href='{% url "registration" %}'>SignUp</a>
                             </label>
                             <label style='float: right;'>
                                 <a class='pink-text' href='/rsetpassword'><b>Reset Password?</b></a>
+=======
+                                <a class='pink-text' href='/register'>SignUp</a>
+                            </label>
+                            <label style='float: right;'>
+                                <a class='pink-text' href='/password-reset/'><b>Reset Password?</b></a>
+>>>>>>> 8b64436 (updated reset pssword method)
                             </label>
                         </div>
 

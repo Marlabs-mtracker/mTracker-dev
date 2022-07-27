@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+<<<<<<< HEAD
 import os
+=======
+>>>>>>> 8b64436 (updated reset pssword method)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,8 +31,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+<<<<<<< HEAD
 #userdefined login fields
 AUTH_USER_MODEL = 'accounts.User'
+=======
+>>>>>>> 8b64436 (updated reset pssword method)
 
 # Application definition
 
@@ -41,7 +47,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'taskData',
+<<<<<<< HEAD
     'accounts',
+=======
+    'userProfile',
+>>>>>>> 8b64436 (updated reset pssword method)
     
 ]
 
@@ -152,6 +162,7 @@ MEDIA_ROOT = BASE_DIR /'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+<<<<<<< HEAD
 
 # email config 
 # EMAIL_FROM_USER = "sachin.pal.itc@gmail.com"
@@ -162,3 +173,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # EMAIL_PORT = os.environ.get("EMAIL_PORT")
 
 
+=======
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'ashishbit017@gmail.com'
+EMAIL_HOST_PASSWORD = 'sxfuupexjpozlasl'
+EMAIL_PORT = 587
+>>>>>>> 8b64436 (updated reset pssword method)
