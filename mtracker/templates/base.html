@@ -9,7 +9,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
-    <link rel="stylesheet" href="/static/css/home-create-task_style.css">
+    <link rel="stylesheet" href="/static/css/create-task_style.css">
     <link rel="stylesheet" href="/static/css/jquery.datetimepicker.css">
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -18,9 +18,6 @@
     <link rel="stylesheet" href="/static/css/hr-profile_style.css">
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" href="/static/css/hr-profile_style.css"> -->
     
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -40,8 +37,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="/static/css/update-task_style.css">
     <link rel="stylesheet" href="/static/css/jquery.datetimepicker.css">
+    <link rel="stylesheet" href="/static/css/search-display-task_style.css">
+    <link rel="stylesheet" href="/static/css/hr-profile_style.css">
+    
 
-    <title>Document</title>
+    <title>mTracker</title>
 </head>
 
 <body>
@@ -53,35 +53,31 @@
                 </a>
                 <a href="#" data-target="mobile-side-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down">
-                    <li class="active"><a href="/">Create</a></li>
-<<<<<<< HEAD
-                    <li><a href="/search">Query/Tasks</a></li>
-                    <li><a href="/feedback">Feedbacks</a></li>
-                    <li><a href="/hr-profile">Profile</a></li>
+                    <li class="active"><a href="{% url 'home' %}">Create</a></li>
+                    <li><a href="{% url 'search'%}">Query/Tasks</a></li>
+                    <li><a href="{% url 'feedback'%}">Feedbacks</a></li>
                     {% if user.is_authenticated %}
-                    <li><a href="/login">Hi, {{request.user.first_name}}</a></li>
-=======
-                    <li><a href="/search">Search</a></li>
-                    <li><a href="/feedback">Feedbacks</a></li>
-                    <li><a href="/hr-profile">Profile</a></li>
-                    {% if user.is_authenticated %}
-                    <li><a href="/login">Welcome, {{request.user}}</a></li>
->>>>>>> 8b64436 (updated reset pssword method)
-                    <li><a href="/logout">Logout</a></li>
+                    <li><a href="{% url 'profile'%}">Profile</a></li>
+                    <li><a href="{% url 'profile'%}">Hi, {{request.user.first_name}}</a></li>
+                    <li><a href="{% url 'logout'%}">Logout</a></li>
                     {% else %}
-                    <li><a href="/login">Login</a></li>
+                    <li><a href="{% url 'login'%}">Login</a></li>
                     {% endif %}
                 </ul>
             </div>
         </nav>
 
         <ul class="sidenav" id="mobile-side-nav">
-            <li class="active"><a href="/">Create</a></li>
-            <li><a href="/search">Search</a></li>
-            <li><a href="/feedback">Feedbacks</a></li>
-            <li><a href="/hr-profile">profile</a></li>
-            <li><a href="/login">Login</a></li>
-            <li><a href="/logout">Logout</a></li>
+            <li class="active"><a href="{% url 'home' %}">Create</a></li>
+            <li><a href="{% url 'search'%}">Query/Tasks</a></li>
+            <li><a href="{% url 'feedback'%}">Feedbacks</a></li>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'profile'%}">Profile</a></li>
+            <li><a href="{% url 'profile'%}">Hi, {{request.user.first_name}}</a></li>
+            <li><a href="{% url 'logout'%}">Logout</a></li>
+            {% else %}
+            <li><a href="{% url 'login'%}">Login</a></li>
+            {% endif %}
         </ul>
     </div>
 

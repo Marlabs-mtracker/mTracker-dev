@@ -15,13 +15,8 @@ Including another URLconf
 """
 
 from django.contrib import admin
-<<<<<<< HEAD
 from django.urls import path
 from . import views
-=======
-from django.urls import path , include
-from . import views  
->>>>>>> 8b64436 (updated reset pssword method)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,22 +25,10 @@ urlpatterns = [
     path('hr-profile/', views.profileData, name='profile'),
     path('feedback/', views.feedbackData, name='feedback'),
     path('login/', views.userLogin, name='login'),
-<<<<<<< HEAD
     path('rsetpassword/', views.resetPassword, name='restpassword'),
     path('logout/', views.userLogout, name='logout'),
     path('register/', views.user_registration, name='registration'),
     path('search/updatetask/<int:id>', views.updateTask, name='updatetask'),
     path('search/deletetask/<int:id>', views.deleteTask, name='deletetask'),
-    path('search/searchresult/', views.searchResult, name='searchresult'),
     
-=======
-    path('logout/', views.userLogout, name='logout'),
-    path('register', views.user_registration, name='registration'),
-    path('search/updatetask/<int:id>', views.updateTask, name='updatetask'),
-    path('search/deletetask/<int:id>', views.deleteTask, name='deletetask'),
-    path('search/searchresult/', views.searchResult, name='searchresult'),
-    path('password-reset/',views.resetPassword, name='passwordreset'),
-    path('changepass/<str:id>/',views.changePassword, name="changepassword"), 
-   
->>>>>>> 8b64436 (updated reset pssword method)
 ]

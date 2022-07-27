@@ -1,43 +1,7 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" href="/static/css/update-task_style.css">
-    <link rel="stylesheet" href="/static/css/jquery.datetimepicker.css">
-    <title>Document</title>
-</head>
-
-<body> -->
 {% extends "base.html" %}
 {% block body %}
-    <!-- <div class="navbar-fixed">
-        <nav>
-            <div class="nav-wrapper">
-                <a href="#!" class="brand-logo">
-                    <img src="/static/img/mTracker.png">
-                </a>
-                <a href="#" data-target="mobile-side-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-                <ul class="right hide-on-med-and-down">
-                    <li><a href="./home.html">Create</a></li>
-                    <li class="active"><a href="./search.html">Search</a></li>
-                    <li><a href="./task-feedbacks.html">Feedbacks</a></li>
-                    <li><a href="./hr-profile.html">Profile</a></li>
-                </ul>
-            </div>
-        </nav>
 
-        <ul class="sidenav" id="mobile-side-nav">
-            <li><a href="./home-create-task.html">Create</a></li>
-            <li class="active"><a href="./search.html">Search</a></li>
-            <li><a href="./task-feedbacks.html">Feedbacks</a></li>
-            <li><a href="./hr-profile.html">profile</a></li>
-        </ul>
-    </div> -->
     <div class="update-task-container">
         <div class="row">
             <center>
@@ -81,17 +45,11 @@
                 </div>
 
                 <div class="row">
-                    <!-- {% if getData.taskstatus is "Completed" %}
-                        <div class="input-field col l4 s12">
-                            <label>Completed</label>
-                            <input disabled  placeholder="Select Due Date" type="text" class="datepicker"  value={{getdata.duedate}}>
-                        </div>
-                    {% else %} -->
                     <div class="input-field col l4 s12">
                         <label>Due Date</label>
                         <input placeholder="Select Due Date" type="text" class="datepicker" name="due-date" value={{getdata.duedate}}>
                     </div>
-                    <!-- {% endif %} -->
+                    
                     <div class="input-field col l4 s12">
                         <select id="task-status" name="task-status" value={{getData.taskstatus}}>
                             <option value="Pending" selected>Pending</option>
