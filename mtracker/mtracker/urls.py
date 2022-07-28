@@ -15,6 +15,7 @@ Including another URLconf
 """
 
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.urls import path
 from . import views
 
@@ -25,10 +26,24 @@ urlpatterns = [
     path('hr-profile/', views.profileData, name='profile'),
     path('feedback/', views.feedbackData, name='feedback'),
     path('login/', views.userLogin, name='login'),
-    path('rsetpassword/', views.resetPassword, name='restpassword'),
     path('logout/', views.userLogout, name='logout'),
     path('register/', views.user_registration, name='registration'),
     path('search/updatetask/<int:id>', views.updateTask, name='updatetask'),
     path('search/deletetask/<int:id>', views.deleteTask, name='deletetask'),
+    path('reset_password/',
+     auth_views.PasswordResetView.as_view(template_name="password_reset.html"),
+     name="reset_password"),
+
+    path('reset_password_sent/', 
+        auth_views.PasswordResetDoneView.as_view(template_name="password_reset_sent.html"), 
+        name="password_reset_done"),
+
+    path('reset/<uidb64>/<token>/',
+     auth_views.PasswordResetConfirmView.as_view(template_name="password_reset_form.html"), 
+     name="password_reset_confirm"),
+
+    path('reset_password_complete/', 
+        auth_views.PasswordResetCompleteView.as_view(template_name="password_reset_done.html"), 
+        name="password_reset_complete"),
     
 ]

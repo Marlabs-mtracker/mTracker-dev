@@ -155,10 +155,6 @@ def userLogin(request):
 
     return render(request, 'login.html')
 
-def resetPassword(request):
-    """Created by Sachin PAl(ASE DATA ENGINEER[110080]) """
-    return render(request, "password-reset.html")
-
 
 def userLogout(request):
     """Created by Sachin PAl(ASE DATA ENGINEER[110080]) """
