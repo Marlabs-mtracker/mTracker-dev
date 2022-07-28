@@ -53,9 +53,8 @@
                 </a>
                 <a href="#" data-target="mobile-side-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down">
-                    <li class="active"><a href="{% url 'home' %}">Create</a></li>
-                    <li><a href="{% url 'search'%}">Query/Tasks</a></li>
-                    <li><a href="{% url 'feedback'%}">Feedbacks</a></li>
+                    <li><a href="{% url 'home' %}">Create</a></li>
+                    <li><a href="{% url 'search'%}">Search Tasks</a></li>
                     {% if user.is_authenticated %}
                     <li><a href="{% url 'profile'%}">Profile</a></li>
                     <li><a href="{% url 'profile'%}">Hi, {{request.user.first_name}}</a></li>

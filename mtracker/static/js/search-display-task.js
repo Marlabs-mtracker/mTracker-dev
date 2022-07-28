@@ -5,8 +5,8 @@ $(document).ready(function () {
 // date-time picker 
 $(document).ready(function () {
     $('.datepicker').datetimepicker({
-        minDate: new Date(),
-        format: 'm/d/Y, h:i:s A'
+        //minDate: new Date(),
+        format: 'Y-m-d'
     });
 });
 

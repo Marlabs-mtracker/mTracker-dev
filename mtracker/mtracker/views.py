@@ -47,7 +47,10 @@ def search(request):
         task = request.POST.get('task')
         print(fromdate, todate, empid, task)
         # searchData = TaskData.objects.raw(f"SELECT * FROM taskData_taskdata WHERE duedate BETWEEN '{fromdate}' AND '{todate}' AND empid={empid} AND taskname={task.upper()}")
-        searchData = TaskData.objects.filter(duedate__range=[fromdate, todate], empid__icontains=empid, taskname__icontains=task.upper())
+        if fromdate =="" and todate =="":
+            fromdate='1990-12-31'
+            todate=datetime.datetime.now().strftime('%Y-%m-%d')
+        searchData = TaskData.objects.filter(createdon__range=[fromdate, todate], empid__icontains=empid, taskname__icontains=task.upper())
         return render(request, "search.html", {"taskData":searchData})
     taskData = TaskData.objects.all().order_by('duedate')
     return render(request, "search.html", {"taskData":taskData})
@@ -68,7 +71,7 @@ def updateTask(request, id):
         getData.taskstatus = request.POST.get('task-status')
         getData.tasksummary = request.POST.get('task-summary')
         cur_time = (datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-        getData.tasksummary = getData.tasksummary+"      "+cur_time
+        getData.tasksummary = getData.tasksummary+"   <br>   "+cur_time
         getData.save()
         # print(getData.empname)
         messages.success(request, 'You successfully updated your data!')
@@ -92,16 +95,8 @@ def deleteTask(request, id):
 @login_required(login_url="/login")
 def profileData(request):
     """Created by Sachin PAl(ASE DATA ENGINEER[110080]) """
-    totalTasks = TaskData.objects.all().count()
-    totalTasksCompleted = TaskData.objects.filter(taskstatus="Completed").count()
-    tottalTasksPending = TaskData.objects.filter(taskstatus="Pending").count()
-    # print(totalTasks, totalTasksCompleted, tottalTasksPending)
-    context = {      
-        "totalTasks":totalTasks,
-        "totalTasksCompleted":totalTasksCompleted,
-        "totalTasksPending":tottalTasksPending
-    }
-    return render(request, "hr-profile.html",context=context)
+    
+    return render(request, "hr-profile.html")
 
 @login_required(login_url="/login")
 def feedbackData(request):
