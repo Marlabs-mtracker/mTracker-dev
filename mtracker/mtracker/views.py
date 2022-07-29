@@ -6,7 +6,6 @@ from django.contrib.auth.decorators import login_required
 from accounts.models import User
 from taskData import models
 from django.contrib import messages
-import taskData
 from taskData.models import TaskData
 import datetime
 
@@ -50,9 +49,9 @@ def search(request):
         if fromdate =="" and todate =="":
             fromdate='1990-12-31'
             todate=datetime.datetime.now().strftime('%Y-%m-%d')
-        searchData = TaskData.objects.filter(createdon__range=[fromdate, todate], empid__icontains=empid, taskname__icontains=task.upper())
+        searchData = TaskData.objects.filter(createdon__range=[fromdate, todate], empid__icontains=empid, taskname__icontains=task.upper()).order_by('-id')
         return render(request, "search.html", {"taskData":searchData})
-    taskData = TaskData.objects.all().order_by('duedate')
+    taskData = TaskData.objects.filter().exclude(taskstatus='Completed').order_by('-id')
     return render(request, "search.html", {"taskData":taskData})
 
 
