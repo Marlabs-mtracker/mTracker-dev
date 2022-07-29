@@ -1,30 +1,45 @@
     {% extends "base.html" %}
     {% block body %}
+    
+    <div>
+        <h2>Home Page</h2>
+    </div>
+    {% if request.user.is_authenticated %}
     <div class="profile-container">
         <div class="row">
+            <!-- <center>
+                <div class=""> -->
+                    
+                    <h3 style="padding-left: 300px; padding-top: 20px;">Hi,{{request.user.first_name}}</h3>
+                    
+                <!-- </div>
+            </center> -->
+        </div>
+        <div class="row">
             <center>
-                <h5 class="profile-title">Profile</h5>
-
                 <div class="profile-details-card z-depth-3">
-                    <div class="profile-img" id="profile-img">
-                        <img src="/static/img/profile.png">
-                    </div>
-
-                    <ul>
-                        <li>Name: <span>{{user.first_name}} {{user.last_name}}</span></li>
-                        <li>Designation: <span>{{user.designation}}</span></li>
-                        <li>Employee ID: <span>{{request.user.empid}}</span></li>
-                        <li>Email ID: <span>{{user.email}}</span></li>
-                        <li>Location: <span>{{user.location}}</span></li>
-                    </ul>
-
+                    
+                    <center>
+                    <table>
+                        <tr></tr>
+                        <th>Total Task</th>
+                        <th>Completed Task</th>
+                        <th>Pending Task</th>
+                    </tr>
+                    <tr>
+                        <td>{{totaltask}}</td>
+                        <td>{{completedtask}}</td>
+                        <td>{{pendingtask}}</td>
+                    </tr>
+                    </table>
+                </center>
                 </div>
-                <br>
-
             </center>
+                <br>
 
         </div>
     </div>
+    {% endif %}
     <script>
 
     </script>

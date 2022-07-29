@@ -12,8 +12,19 @@ import datetime
 
 
 #creating tasks
-@login_required(login_url="/login")
 def home(request):
+    totaltask = TaskData.objects.all().count()
+    completedtask = TaskData.objects.filter(taskstatus='Completed').count()
+    pendingtask = TaskData.objects.filter(taskstatus='Pending').count()
+    context = {
+        "totaltask":totaltask,
+        "completedtask":completedtask,
+        "pendingtask":pendingtask
+    }
+    return render(request, 'Dashboard.html', context=context)
+
+@login_required(login_url="/login")
+def createTask(request):
     """Created by Sachin PAl(ASE DATA ENGINEER[110080]) """
     if request.method == "POST":
         empId = request.POST.get('empid')
@@ -81,14 +92,17 @@ def updateTask(request, id):
 @login_required(login_url="/login")
 def deleteTask(request, id):
     """Created by Sachin PAl(ASE DATA ENGINEER[110080]) """
-    if request.method == "POST":
-        getData = models.TaskData.objects.get(pk=id)
-        # print(getDeletedData)
-        getData.delete()
-        # messages.success(request, 'You successfully deleted')
-        return redirect('search')
-    return HttpResponse('404 no page found!')
-    # return render(request, "search.html", {"getData":getData})
+    if request.user.is_authenticated:
+        return redirect('home')
+    else:
+        if request.method == "POST":
+            getData = models.TaskData.objects.get(pk=id)
+            # print(getDeletedData)
+            getData.delete()
+            # messages.success(request, 'You successfully deleted')
+            return redirect('home')
+        return HttpResponse('404 no page found!')
+        # return render(request, "search.html", {"getData":getData})
 
 
 @login_required(login_url="/login")
@@ -106,37 +120,40 @@ def feedbackData(request):
 # HR user registration 
 def user_registration(request):
     """Created by Sachin PAl(ASE DATA ENGINEER[110080])"""
-    
-    if request.method == 'POST':
-        first_name = request.POST.get('fname')
-        last_name = request.POST.get('lname')
-        empid = request.POST.get('employeeid')
-        email = request.POST.get('email')
-        designation = request.POST.get('designation')
-        location = request.POST.get('location')
-        password = request.POST.get('password')
-        conf_emp_password = request.POST.get('conf_password')
 
-        # print(first_name, empid, email, password, conf_emp_password, designation, location)
+    if request.user.is_authenticated:
+        return redirect('home')
+    else:
+        if request.method == 'POST':
+            first_name = request.POST.get('fname')
+            last_name = request.POST.get('lname')
+            empid = request.POST.get('employeeid')
+            email = request.POST.get('email')
+            designation = request.POST.get('designation')
+            location = request.POST.get('location')
+            password = request.POST.get('password')
+            conf_emp_password = request.POST.get('conf_password')
 
-        if password == conf_emp_password:
-            if User.objects.filter(email=email).exists():
-                messages.info(request, "Employee email already registered...")
-                return redirect(user_registration)
+            # print(first_name, empid, email, password, conf_emp_password, designation, location)
+
+            if password == conf_emp_password:
+                if User.objects.filter(email=email).exists():
+                    messages.info(request, "Employee email already registered...")
+                    return redirect(user_registration)
+                else:
+                    user = User.objects.create_user(email=email, password=password, empid=empid, first_name=first_name, last_name=last_name, designation=designation, location=location)
+                    user.save()
+                    return redirect('login')
             else:
-                user = User.objects.create_user(email=email, password=password, empid=empid, first_name=first_name, last_name=last_name, designation=designation, location=location)
-                user.save()
-                return redirect('login')
-        else:
-            messages.info(request, "Both password are not matching...")
-            return redirect(user_registration)
-    return render(request, 'register.html')
+                messages.info(request, "Both password are not matching...")
+                return redirect(user_registration)
+        return render(request, 'register.html')
 
 #HR user login
 def userLogin(request):
     """Created by Sachin PAl(ASE DATA ENGINEER[110080]) """
     if request.user.is_authenticated:
-        return redirect('search')
+        return redirect('home')
 
     if request.method == "POST":
         username = request.POST.get('emp-id')
@@ -147,7 +164,7 @@ def userLogin(request):
         # print(user)
         if user is not None:
             login(request, user)
-            return redirect('search')
+            return redirect('home')
         else:
             messages.info(request, "Invalid username or password...")
             return redirect('login')
