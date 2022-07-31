@@ -8,6 +8,7 @@ from taskData import models
 from django.contrib import messages
 from taskData.models import TaskData
 import datetime
+import smtplib, ssl
 
 
 
@@ -36,7 +37,21 @@ def createTask(request):
         taskSummary = request.POST.get('tasksummary')
         cur_time = datetime.datetime.now().strftime("%Y-%m-%d")
         # print(empId, empEmail, empName, taskName, dueDate, taskStatus, taskSummary)
-
+        if taskStatus== "completed":
+            port = 587  # For starttls
+            smtp_server = "smtp.gmail.com"
+            sender_email = "mtrackermarlabsltd@gmail.com"
+            receiver_email = empEmail
+            password = "rwcnplsxaytyjymt"
+            message = 'Subject: mTracker-Feedback Form \n\nYour Query has been resolved.\n Please go through this link to rate us:http://127.0.0.1:8000/feedback/'
+            context = ssl.create_default_context()
+            with smtplib.SMTP(smtp_server, port) as server:
+                server.ehlo()  # Can be omitted
+                server.starttls(context=context)
+                server.ehlo()  # Can be omitted
+                server.login(sender_email, password)
+                server.sendmail(sender_email, receiver_email, message)
+                
         td = TaskData(empid=empId, empname=empName, empemail=empEmail, taskname=taskName.upper(), duedate=dueDate, taskstatus=taskStatus.title(), tasksummary=taskSummary+"      "+datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), createdon=cur_time)
         td.save()
         return redirect('home')
@@ -81,9 +96,24 @@ def updateTask(request, id):
         getData.taskstatus = request.POST.get('task-status')
         getData.tasksummary = request.POST.get('task-summary')
         cur_time = (datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-        getData.tasksummary = getData.tasksummary+"   <br>   "+cur_time
+        getData.tasksummary = getData.tasksummary+"      "+cur_time
         getData.save()
-        # print(getData.empname)
+        print(getData.taskstatus)
+        if getData.taskstatus=="completed":
+            port = 587  # For starttls
+            smtp_server = "smtp.gmail.com"
+            sender_email = "mtrackermarlabsltd@gmail.com"
+            receiver_email = getData.empemail
+            password = "rwcnplsxaytyjymt"
+            message = 'Subject: mTracker-Feedback Form \n\nYour Query has been resolved.\n Please go through this link to rate us:http://127.0.0.1:8000/feedback/'
+            context = ssl.create_default_context()
+            with smtplib.SMTP(smtp_server, port) as server:
+                server.ehlo()  # Can be omitted
+                server.starttls(context=context)
+                server.ehlo()  # Can be omitted
+                server.login(sender_email, password)
+                server.sendmail(sender_email, receiver_email, message)
+
         messages.success(request, 'You successfully updated your data!')
         return redirect('search')
 
