@@ -123,9 +123,9 @@
           </div>
           <hr>
           <div class="hr-info">
-            <li>Task/Query: <span>HR</span></li>
-            <li>HR Name: <span>Thulasi</span></li>
-            <li>HR Employee ID: <span>288821</span></li>
+            <li>Task/Query: <span>{{request.user.designation}}</span></li>
+            <li>HR Name: <span>{{request.user.first_name}}</span></li>
+            <li>HR Employee ID: <span>{{request.user.empid}}</span></li>
           </div>
           <hr>
           <div>Status: <li><span>Completed</span></li>
@@ -134,7 +134,8 @@
       </div>
 
     </div>
-    <form action="#submit" method="post" id="feedback_form">
+    <form action="" method="post" id="feedback_form">
+      {% csrf_token %}
       <div class="app">
         <h4 style="color: #504DFF;">1. Please rate your experience with HR(Required):</h4>
         <p id="rating_message">Let us know how we did</p>

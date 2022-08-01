@@ -4,25 +4,27 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from accounts.models import User
+from feedback.models import Feedback
 from taskData import models
 from django.contrib import messages
 from taskData.models import TaskData
+from feedback.models import Feedback
 import datetime
 import smtplib, ssl
 
 
 
 #creating tasks
-def home(request):
-    totaltask = TaskData.objects.all().count()
-    completedtask = TaskData.objects.filter(taskstatus='Completed').count()
-    pendingtask = TaskData.objects.filter(taskstatus='Pending').count()
-    context = {
-        "totaltask":totaltask,
-        "completedtask":completedtask,
-        "pendingtask":pendingtask
-    }
-    return render(request, 'Dashboard.html', context=context)
+# def home(request):
+#     totaltask = TaskData.objects.all().count()
+#     completedtask = TaskData.objects.filter(taskstatus='Completed').count()
+#     pendingtask = TaskData.objects.filter(taskstatus='Pending').count()
+#     context = {
+#         "totaltask":totaltask,
+#         "completedtask":completedtask,
+#         "pendingtask":pendingtask
+#     }
+#     return render(request, 'Dashboard.html', context=context)
 
 @login_required(login_url="/login")
 def createTask(request):
@@ -65,6 +67,10 @@ def createTask(request):
 #method to show completed and pending tasks and search
 def search(request):
     """Created by Sachin PAl(ASE DATA ENGINEER[110080])"""
+    totaltask = TaskData.objects.all().count()
+    completedtask = TaskData.objects.filter(taskstatus='Completed').count()
+    pendingtask = TaskData.objects.filter(taskstatus='Pending').count()
+    
     if request.method == "POST":
         fromdate = request.POST.get('fromdate')
         todate = request.POST.get('todate')
@@ -76,9 +82,40 @@ def search(request):
             fromdate='1990-12-31'
             todate=datetime.datetime.now().strftime('%Y-%m-%d')
         searchData = TaskData.objects.filter(createdon__range=[fromdate, todate], empid__icontains=empid, taskname__icontains=task.upper()).order_by('-id')
-        return render(request, "search.html", {"taskData":searchData})
+        context = {
+        "totaltask":totaltask,
+        "completedtask":completedtask,
+        "pendingtask":pendingtask,
+        "taskData":searchData,
+        }
+        return render(request, "search.html", context=context)
     taskData = TaskData.objects.filter().exclude(taskstatus='Completed').order_by('-id')
-    return render(request, "search.html", {"taskData":taskData})
+    context = {
+        "totaltask":totaltask,
+        "completedtask":completedtask,
+        "pendingtask":pendingtask,
+        "taskData":taskData,
+        }
+    return render(request, "search.html", context=context)
+
+
+def searchResult(request):
+    """Created by Sachin PAl(ASE DATA ENGINEER[110080])"""
+    searchData = TaskData.objects.all()
+    return render(request, 'searchresult.html',{'searchData':searchData})
+
+
+def searchCompletedTask(request):
+    """Created by Sachin PAl(ASE DATA ENGINEER[110080])"""
+    searchData = TaskData.objects.filter(taskstatus='Completed')
+    return render(request, 'completedtask.html', {'searchData':searchData})
+
+
+def searchPendingTask(request):
+    """Created by Sachin PAl(ASE DATA ENGINEER[110080])"""
+    searchData = TaskData.objects.filter(taskstatus='Pending')
+    return render(request, 'pendingtask.html', {'searchData':searchData})
+
 
 @login_required(login_url="/login")
 def updateTask(request, id):
@@ -136,25 +173,42 @@ def profileData(request):
     totaltask = TaskData.objects.all().count()
     completedtask = TaskData.objects.filter(taskstatus='Completed').count()
     pendingtask = TaskData.objects.filter(taskstatus='Pending').count()
+
+    excellent = Feedback.objects.filter(rating__range=['3', '4']).count()
+    good = Feedback.objects.filter(rating__range=['1', '2']).count()
+    bad = Feedback.objects.filter(rating='0').count()
+
+    allData = Feedback.objects.all()
+
     context = {
         "totaltask":totaltask,
         "completedtask":completedtask,
-        "pendingtask":pendingtask
+        "pendingtask":pendingtask,
+        'excellent':excellent, 
+        'good':good, 
+        'bad':bad,
+        'allData': allData
     }
     return render(request, "hr-profile.html", context=context)
 
 @login_required(login_url="/login")
 def feedbackData(request):
     """Created by Sachin (ASE DATA ENGINEER) """
-    
+
+    if request.method == 'POST':
+        rating = request.POST.get('rating')
+        feedback = request.POST.get('feedback')
+        print(rating, feedback)
+
+        fb = Feedback(rating=rating, feedback=feedback)
+        fb.save()
     return render(request, "feedback-rating-form.html")
 
 # HR user registration 
 def user_registration(request):
     """Created by Sachin PAl(ASE DATA ENGINEER[110080])"""
-
     if request.user.is_authenticated:
-        return redirect('home')
+        return redirect('search')
     else:
         if request.method == 'POST':
             first_name = request.POST.get('fname')

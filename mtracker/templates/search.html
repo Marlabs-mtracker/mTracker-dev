@@ -42,7 +42,28 @@
         </center>
         <div class="row">
             <center>
-                <h5 class="all-tasks-title">Tasks</h5>
+                <div class="row">
+                    <center>
+                        <div class="profile-details-card z-depth-3 task-card collapsible">
+                            
+                            <center>
+                            <table>
+                                <tr></tr>
+                                <th >Total Task</th>
+                                <th>Completed Task</th>
+                                <th>Pending Task</th>
+                            </tr>
+                            <tr>
+                                <td><a href="{% url 'searchresult_all' %}" style="color:blue; font-weight: bold; padding-left: 40px;">{{totaltask}}</a></td>
+                                <td><a href="{% url 'searchresult_comp' %}" style="color:green; font-weight: bold; padding-left: 40px;">{{completedtask}}</a></td>
+                                <td><a href="{% url 'searchresult_pend' %}" style="color:red; font-weight: bold; padding-left: 40px;">{{pendingtask}}</a></td>
+                            </tr>
+                            </table>
+                        </center>
+                        </div>
+                    </center>
+                        <br>
+                </div>
             </center>
 
         </div>
