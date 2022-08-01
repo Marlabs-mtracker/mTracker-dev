@@ -34,10 +34,10 @@
                 <div class="profile-details-card z-depth-3">    
                 <center>
                     <ul>
-                        <li>Excellent Rating Count: <span>{{excellent}}</span></li>
-                        <li>Good Rating Count: <span>{{good}}</span></li>
-                        <li>Bad Rating count: <span>{{bad}}</span></li>
-                        <label for="fedd" style="font-size: 20px;">Feedbacks : </label>
+                        <li>Excellent Rating Count: <span style="font-weight: bold;">{{excellent}}</span></li>
+                        <li>Good Rating Count: <span style="font-weight: bold;">{{good}}</span></li>
+                        <li>Bad Rating count: <span style="font-weight: bold;">{{bad}}</span></li>
+                        <label for="fedd" style="font-size: 20px; font-weight: bold;">Feedbacks : </label>
                         <ul id="fedd">
                         {% for data in allData %}
                         <li><span>{{data.feedback}}</li>

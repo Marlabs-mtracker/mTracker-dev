@@ -82,11 +82,21 @@ def search(request):
             fromdate='1990-12-31'
             todate=datetime.datetime.now().strftime('%Y-%m-%d')
         searchData = TaskData.objects.filter(createdon__range=[fromdate, todate], empid__icontains=empid, taskname__icontains=task.upper()).order_by('-id')
+        totaltaskdata = searchData.filter().count()
+        totaltaskdata1 = searchData.filter()
+        totaltaskcompleteddata = searchData.filter(taskstatus='Completed').count()
+        totaltaskcompleteddata2 = searchData.filter(taskstatus='Completed')
+        tottaltaskpendingdata = searchData.filter(taskstatus='Pending').count()
+        tottaltaskpendingdata3 = searchData.filter(taskstatus='Pending')
+        print(totaltaskdata1,totaltaskcompleteddata2,tottaltaskpendingdata3)
         context = {
-        "totaltask":totaltask,
-        "completedtask":completedtask,
-        "pendingtask":pendingtask,
+        "totaltask":totaltaskdata,
+        "completedtask":totaltaskcompleteddata,
+        "pendingtask":tottaltaskpendingdata,
         "taskData":searchData,
+        'totaltaskdata1':totaltaskdata1,
+        'totaltaskcompleteddata2':totaltaskcompleteddata2,
+        'tottaltaskpendingdata3':tottaltaskpendingdata3
         }
         return render(request, "search.html", context=context)
     taskData = TaskData.objects.filter().exclude(taskstatus='Completed').order_by('-id')
@@ -178,7 +188,7 @@ def profileData(request):
     good = Feedback.objects.filter(rating__range=['1', '2']).count()
     bad = Feedback.objects.filter(rating='0').count()
 
-    allData = Feedback.objects.all()
+    allData = Feedback.objects.all().order_by('-id')
 
     context = {
         "totaltask":totaltask,

@@ -48,15 +48,15 @@
                             
                             <center>
                             <table>
-                                <tr></tr>
-                                <th >Total Task</th>
-                                <th>Completed Task</th>
-                                <th>Pending Task</th>
-                            </tr>
+                                <tr>
+                                    <th >Total Task</th>
+                                    <th>Completed Task</th>
+                                    <th>Pending Task</th>
+                                </tr>
                             <tr>
-                                <td><a href="{% url 'searchresult_all' %}" style="color:blue; font-weight: bold; padding-left: 40px;">{{totaltask}}</a></td>
-                                <td><a href="{% url 'searchresult_comp' %}" style="color:green; font-weight: bold; padding-left: 40px;">{{completedtask}}</a></td>
-                                <td><a href="{% url 'searchresult_pend' %}" style="color:red; font-weight: bold; padding-left: 40px;">{{pendingtask}}</a></td>
+                                <td><a href="{% url 'search' %}" style="color:blue; font-weight: bold; padding-left: 40px;">{{totaltask}}</a></td>
+                                <td><a href="{% url 'search' %}" style="color:green; font-weight: bold; padding-left: 40px;">{{completedtask}}</a></td>
+                                <td><a href="{% url 'search' %}" style="color:red; font-weight: bold; padding-left: 40px;">{{pendingtask}}</a></td>
                             </tr>
                             </table>
                         </center>
