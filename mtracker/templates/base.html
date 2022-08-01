@@ -47,12 +47,12 @@
                 </a>
                 <a href="#" data-target="mobile-side-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down">
-                    <!-- <li><a href="{% url 'home' %}">Home</a></li> -->
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'home' %}">Home</a></li>
                     <li><a href="{% url 'create' %}">Create</a></li>
                     <li><a href="{% url 'search'%}">Search Tasks</a></li>
-                    {% if user.is_authenticated %}
+                    
                     <li><a href="{% url 'profile'%}">Profile</a></li>
-                    <li><a href="{% url 'profile'%}">Hi, {{request.user.first_name}}</a></li>
                     <li><a href="{% url 'logout'%}">Logout</a></li>
                     {% else %}
                     <li><a href="{% url 'login'%}">Login</a></li>
@@ -67,7 +67,7 @@
             <li><a href="{% url 'feedback'%}">Feedbacks</a></li>
             {% if user.is_authenticated %}
             <li><a href="{% url 'profile'%}">Profile</a></li>
-            <li><a href="{% url 'profile'%}">Hi, {{request.user.first_name}}</a></li>
+            <!-- <li><a href="{% url 'profile'%}">Hi, {{request.user.first_name}}</a></li> -->
             <li><a href="{% url 'logout'%}">Logout</a></li>
             {% else %}
             <li><a href="{% url 'login'%}">Login</a></li>

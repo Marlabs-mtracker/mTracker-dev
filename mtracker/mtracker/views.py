@@ -13,6 +13,7 @@ import smtplib, ssl
 
 
 #creating tasks
+@login_required(login_url="/login")
 def home(request):
     totaltask = TaskData.objects.all().count()
     completedtask = TaskData.objects.filter(taskstatus='Completed').count()
@@ -22,7 +23,10 @@ def home(request):
         "completedtask":completedtask,
         "pendingtask":pendingtask
     }
-    return render(request, 'Dashboard.html', context=context)
+    
+    taskData = TaskData.objects.filter().exclude(taskstatus='Completed').order_by('-id')
+    # return render(request, "search.html")
+    return render(request, 'Dashboard.html', {"context":context, "taskData":taskData})
 
 @login_required(login_url="/login")
 def createTask(request):
@@ -40,9 +44,9 @@ def createTask(request):
         if taskStatus== "completed":
             port = 587  # For starttls
             smtp_server = "smtp.gmail.com"
-            sender_email = "mtrackermarlabsltd@gmail.com"
+            sender_email = "chandra.chan052@gmail.com"
             receiver_email = empEmail
-            password = "rwcnplsxaytyjymt"
+            password = "omajbirbhlzlblxg"
             message = 'Subject: mTracker-Feedback Form \n\nYour Query has been resolved.\n Please go through this link to rate us:http://127.0.0.1:8000/feedback/'
             context = ssl.create_default_context()
             with smtplib.SMTP(smtp_server, port) as server:
@@ -63,6 +67,7 @@ def createTask(request):
 
 
 #method to show completed and pending tasks and search
+@login_required(login_url="/login")
 def search(request):
     """Created by Sachin PAl(ASE DATA ENGINEER[110080])"""
     if request.method == "POST":
@@ -100,9 +105,9 @@ def updateTask(request, id):
         if getData.taskstatus=="completed":
             port = 587  # For starttls
             smtp_server = "smtp.gmail.com"
-            sender_email = "mtrackermarlabsltd@gmail.com"
+            sender_email = "chandra.chan052@gmail.com"
             receiver_email = getData.empemail
-            password = "rwcnplsxaytyjymt"
+            password = "omajbirbhlzlblxg"
             message = 'Subject: mTracker-Feedback Form \n\nYour Query has been resolved.\n Please go through this link to rate us:http://127.0.0.1:8000/feedback/'
             context = ssl.create_default_context()
             with smtplib.SMTP(smtp_server, port) as server:
