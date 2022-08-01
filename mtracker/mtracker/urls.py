@@ -21,8 +21,8 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.home, name='home'),
-    path('createTask/', views.createTask, name='create'),
+    # path('',views.home, name='home'),
+    path('', views.createTask, name='create'),
     path('search/', views.search, name='search'),
     path('hr-profile/', views.profileData, name='profile'),
     path('feedback/', views.feedbackData, name='feedback'),
@@ -31,6 +31,9 @@ urlpatterns = [
     path('register/', views.user_registration, name='registration'),
     path('search/updatetask/<int:id>', views.updateTask, name='updatetask'),
     path('search/deletetask/<int:id>', views.deleteTask, name='deletetask'),
+    path('search/searchresult/all-task/', views.searchResult, name='searchresult_all'),
+    path('search/searchresult/completed-task/', views.searchCompletedTask, name='searchresult_comp'),
+    path('search/searchresult/pending-task/', views.searchPendingTask, name='searchresult_pend'),
     path('reset_password/',
      auth_views.PasswordResetView.as_view(template_name="password_reset.html"),
      name="reset_password"),

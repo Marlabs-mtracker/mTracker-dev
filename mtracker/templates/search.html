@@ -42,7 +42,28 @@
         </center>
         <div class="row">
             <center>
-                <h5 class="all-tasks-title">Tasks</h5>
+                <div class="row">
+                    <center>
+                        <div class="profile-details-card z-depth-3 task-card collapsible">
+                            
+                            <center>
+                            <table>
+                                <tr>
+                                    <th >Total Task</th>
+                                    <th>Completed Task</th>
+                                    <th>Pending Task</th>
+                                </tr>
+                            <tr>
+                                <td><a href="{% url 'search' %}" style="color:blue; font-weight: bold; padding-left: 40px;">{{totaltask}}</a></td>
+                                <td><a href="{% url 'search' %}" style="color:green; font-weight: bold; padding-left: 40px;">{{completedtask}}</a></td>
+                                <td><a href="{% url 'search' %}" style="color:red; font-weight: bold; padding-left: 40px;">{{pendingtask}}</a></td>
+                            </tr>
+                            </table>
+                        </center>
+                        </div>
+                    </center>
+                        <br>
+                </div>
             </center>
 
         </div>
@@ -66,7 +87,7 @@
                             <div class="summary-list">
                                 <div class="">Created Date: <span class="summary-date">{{data.createdon}}</span></div>
                                 <div class="">Due Date: <span class="summary-date">{{data.duedate}}</span></div>
-                                <div class="">Summary: <span class="summary-date">{{data.tasksummary}}</span></div>
+                                <div class="">Getting further info: <span class="summary-date">{{data.tasksummary}}</span></div>
                                 <!-- <div class="">Connecting with the employee <span class="summary-date">(07/20/2022, 02:00:12 PM)</span></div>
                                 <div class="">Resolved <span class="summary-date">(07/20/2022, 02:00:12 PM)</span></div>
                                 <div class="">Getting further info <span class="summary-date">(07/15/2022, 02:00:12 PM)</span></div>

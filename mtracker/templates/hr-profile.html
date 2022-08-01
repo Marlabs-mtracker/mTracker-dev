@@ -1,5 +1,12 @@
     {% extends "base.html" %}
     {% block body %}
+    <style>
+        #fedd{
+            height:150px; 
+            width:70%;
+            overflow:hidden; 
+            overflow-y:scroll;}
+   </style>
     <div class="profile-container">
         <div class="row">
             <center>
@@ -24,30 +31,30 @@
         </div>
         <div class="row">
             <center>
-                <div class="profile-details-card z-depth-3">
-                    
-                    <center>
-                    <table>
-                        <tr></tr>
-                        <th>Total Task</th>
-                        <th>Completed Task</th>
-                        <th>Pending Task</th>
-                    </tr>
-                    <tr>
-                        <td>{{totaltask}}</td>
-                        <td>{{completedtask}}</td>
-                        <td>{{pendingtask}}</td>
-
-                    </tr>
-                    </table>
+                <div class="profile-details-card z-depth-3">    
+                <center>
+                    <ul>
+                        <li>Excellent Rating Count: <span style="font-weight: bold;">{{excellent}}</span></li>
+                        <li>Good Rating Count: <span style="font-weight: bold;">{{good}}</span></li>
+                        <li>Bad Rating count: <span style="font-weight: bold;">{{bad}}</span></li>
+                        <label for="fedd" style="font-size: 20px; font-weight: bold;">Feedbacks : </label>
+                        <ul id="fedd">
+                        {% for data in allData %}
+                        <li><span>{{data.feedback}}</li>
+                        {% endfor %}
+                        </ul>
+                    </ul>
                 </center>
                 </div>
             </center>
-                <br>
+            <br>
         </div>
     </div>
+    {{excellent}}
+    {{good}}
+    {{bad}}
     <script>
-
+        
     </script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
