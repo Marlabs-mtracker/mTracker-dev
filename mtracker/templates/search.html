@@ -77,12 +77,12 @@
                         <div class="task-actions col l3 s12">
                             <div class="">
                                 <div class="input-field">
-                                    <a href="/search/updatetask/{{ data.id }}"><button type='submit' name='btn_update' id="task-update-btn"
+                                    <a href="{% url 'updatetask' data.id %}"><button type='submit' name='btn_update' id="task-update-btn"
                                         class='btn btn-small teal waves-effect waves-light'>Update</button></a>
                                 </div>
                                 <div class="col s12"></div>
                                 <div class="input-field">
-                                    <form action="/search/deletetask/{{data.id}}" method="post">
+                                    <form action="{% url 'deletetask' data.id %}" method="post">
                                         {% csrf_token %}
                                         <button name='btn_ask_delete' id="task-delete-btn"
                                         class=' btn btn-small red waves-effect waves-light'>Delete</button>

@@ -54,7 +54,7 @@ def createTask(request):
                 
         td = TaskData(empid=empId, empname=empName, empemail=empEmail, taskname=taskName.upper(), duedate=dueDate, taskstatus=taskStatus.title(), tasksummary=taskSummary+"      "+datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), createdon=cur_time)
         td.save()
-        return redirect('home')
+        return redirect('search')
 
         # print(empId, empName, empEmail, taskName, dueDate, taskStatus, taskSummary)
         # print('successfull')
@@ -79,8 +79,6 @@ def search(request):
         return render(request, "search.html", {"taskData":searchData})
     taskData = TaskData.objects.filter().exclude(taskstatus='Completed').order_by('-id')
     return render(request, "search.html", {"taskData":taskData})
-
-
 
 @login_required(login_url="/login")
 def updateTask(request, id):
@@ -122,24 +120,28 @@ def updateTask(request, id):
 @login_required(login_url="/login")
 def deleteTask(request, id):
     """Created by Sachin PAl(ASE DATA ENGINEER[110080]) """
-    if request.user.is_authenticated:
-        return redirect('home')
-    else:
-        if request.method == "POST":
-            getData = models.TaskData.objects.get(pk=id)
-            # print(getDeletedData)
-            getData.delete()
-            # messages.success(request, 'You successfully deleted')
-            return redirect('home')
-        return HttpResponse('404 no page found!')
-        # return render(request, "search.html", {"getData":getData})
+    if request.method == "POST":
+        getData = models.TaskData.objects.get(pk=id)
+        # print(getDeletedData)
+        getData.delete()
+        # messages.success(request, 'You successfully deleted')
+        return redirect('search')
+    return HttpResponse('404 no page found!')
+    # return render(request, "search.html", {"getData":getData})
 
 
 @login_required(login_url="/login")
 def profileData(request):
     """Created by Sachin PAl(ASE DATA ENGINEER[110080]) """
-    
-    return render(request, "hr-profile.html")
+    totaltask = TaskData.objects.all().count()
+    completedtask = TaskData.objects.filter(taskstatus='Completed').count()
+    pendingtask = TaskData.objects.filter(taskstatus='Pending').count()
+    context = {
+        "totaltask":totaltask,
+        "completedtask":completedtask,
+        "pendingtask":pendingtask
+    }
+    return render(request, "hr-profile.html", context=context)
 
 @login_required(login_url="/login")
 def feedbackData(request):
@@ -183,7 +185,7 @@ def user_registration(request):
 def userLogin(request):
     """Created by Sachin PAl(ASE DATA ENGINEER[110080]) """
     if request.user.is_authenticated:
-        return redirect('home')
+        return redirect('search')
 
     if request.method == "POST":
         username = request.POST.get('emp-id')
@@ -194,7 +196,7 @@ def userLogin(request):
         # print(user)
         if user is not None:
             login(request, user)
-            return redirect('home')
+            return redirect('search')
         else:
             messages.info(request, "Invalid username or password...")
             return redirect('login')
